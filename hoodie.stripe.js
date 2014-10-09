@@ -122,6 +122,4 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	  		console.log('retrieve fail');
 	  	});
 	}
-
-  //TODO : try to get the StripeCustomerID at the same time
 });
