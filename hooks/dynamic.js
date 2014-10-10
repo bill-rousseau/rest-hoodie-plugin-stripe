@@ -26,8 +26,8 @@ var stripe = require('../lib/stripe');
 var async = require('async');
 
 var camelToDot = function(str) {
-	  return str.replace(/\W+/g, '.')
-				.replace(/([a-z\d])([A-Z])/g, '$1-$2');
+	return str.replace(/\W+/g, '.')
+	.replace(/([a-z\d])([A-Z])/g, '$1-$2');
 };
 
 var dotToCamel = function(str) {
@@ -38,36 +38,103 @@ var dotToCamel = function(str) {
 
 module.exports = function (hoodie) {
 
-  	function router(request, response) {
-		router[request.query.subtype](request, response);
+  	function router(request, reply) {
+		//reply('hello world');
+		return router[request.query.subtype](request, reply);
 	};
 
-	router['customers.create'] = function(request, response) {
+	router['customers.create'] = function(request, reply) {
 		stripe.customersCreate(hoodie, request.query, function(err) {
 			if (err && err == 'ignore') {
-			  response(false);
+				reply(false);
 			} else {
-			  response(true);
+				reply(true);
 			}
 		});
   	};
 
-	router['customers.updateSubscription'] = function(request, response) {
+	router['customers.updateSubscription'] = function(request, reply) {
 		stripe.customersUpdateSubscription(hoodie, request.query, function(err) {
 			if (err && err == 'ignore') {
-			  response(false);
+			  	reply(false);
 			} else {
-			  response(true);
+			  	reply(true);
 			}
 		});
   	};
 
-  	router['customers.retrieveSubscription'] = function(request, response) {
-		stripe.customersRetrieveSubscription(hoodie, request.query, function(err) {
+  	router['customers.retrieveSubscription'] = function(request, reply) {
+		stripe.customersRetrieveSubscription(hoodie, request.query, function(err, message) {
 			if (err && err == 'ignore') {
-			  response(false);
+			  	console.log('hello false');
+			  	reply(false);
 			} else {
-			  response(true);
+				console.log(reply);
+				console.log(message);
+				// message is what I want to send back to frontend
+			  	reply('hello world, x2');
+			}
+		});
+  	};
+
+  	router['customers.cancelSubscription'] = function(request, reply) {
+		stripe.customersCancelSubscription(hoodie, request.query, function(err) {
+			if (err && err == 'ignore') {
+			  	reply(false);
+			} else {
+			  	reply(true);
+			}
+		});
+  	};
+
+  	router['customers.listSubscriptions'] = function(request, reply) {
+		stripe.customersListSubscriptions(hoodie, request.query, function(err, message) {
+			if (err && err == 'ignore') {
+			  	console.log('hello false');
+			  	reply(false);
+			} else {
+				console.log(reply);
+				console.log(message);
+				// message is what I want to send back to frontend
+			  	reply('hello world, x2');
+			}
+		});
+  	};
+
+  	router['charges.create'] = function(request, reply) {
+		stripe.chargesCreate(hoodie, request.query, function(err) {
+			if (err && err == 'ignore') {
+				reply(false);
+			} else {
+				reply(true);
+			}
+		});
+  	};
+
+  	router['charges.retrieve'] = function(request, reply) {
+		stripe.chargesRetrieve(hoodie, request.query, function(err, message) {
+			if (err && err == 'ignore') {
+			  	console.log('hello false');
+			  	reply(false);
+			} else {
+				console.log(reply);
+				console.log(message);
+				// message is what I want to send back to frontend
+			  	reply('hello world, x2');
+			}
+		});
+  	};
+
+  	router['customers.listCharges'] = function(request, reply) {
+		stripe.chargesList(hoodie, request.query, function(err, message) {
+			if (err && err == 'ignore') {
+			  	console.log('hello false');
+			  	reply(false);
+			} else {
+				console.log(reply);
+				console.log(message);
+				// message is what I want to send back to frontend
+			  	reply('hello world, x2');
 			}
 		});
   	};
@@ -164,7 +231,7 @@ module.exports = function (hoodie) {
   //     if (error) {
   //       return reply(new Error(error));
   //     }
-  //     // 200 imlplied by hapi, stripe needs 2xx response
+  //     // 200 imlplied by hapi, stripe needs 2xx reply
   //     reply('ok\n');
   //   };
 

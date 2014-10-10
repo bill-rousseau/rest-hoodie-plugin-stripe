@@ -51,8 +51,8 @@ Hoodie.extend(function (hoodie, lib, utils) {
 
 	hoodie.account.signUpStripe = function(username, password, stripeToken, plan) {
 	  	plan = handleFreePlan(plan);
+	  	console.log(hoodie.id());
 	  	console.log('> hoodie.account.signUpStripe');
-		console.log(username, password, plan);
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -65,9 +65,11 @@ Hoodie.extend(function (hoodie, lib, utils) {
 				planType: 'prototypoOwnSubscription',
 				name: hoodie.id(),
 				originDb: 'user/' + hoodie.id()
-			}
+			},
+			contentType: 'application/json'
 		})
-		.success(function(res) {
+		.done(function(res) {
+			console.log(res);
 			console.log('Stripe Customer created successfully');
 		})
 		.fail(function(res) {
@@ -79,7 +81,6 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	hoodie.account.updateSub = function(username, password, plan) {
 		plan = handleFreePlan(plan);
 	  	console.log('> hoodie.account.updateSub');
-		console.log(username, password, plan);
 	  	$.ajax({
 	  		type: 'get',
 	  		url: '/_api/_plugins/stripe/_api',
@@ -92,17 +93,18 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	  			originDb: 'user/' + hoodie.id()
 	  		}
 	  	})
-	  	.done(function() {
-	  		console.log('success');
+	  	.done(function(res) {
+			console.log(res);
+	  		console.log('update success');
 	  	})
-	  	.fail(function() {
-	  		console.log('update fail');
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('update failed');
 	  	});
 	};
 
 	hoodie.account.retrieveSub = function(username, password, fromStripe) {
 	  	console.log('> hoodie.account.retrieveSub');
-		console.log(username, password, fromStripe);
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -115,11 +117,135 @@ Hoodie.extend(function (hoodie, lib, utils) {
 				originDb: 'user/' + hoodie.id()
 			}
 		})
-		.done(function() {
-	  		console.log('success');
+		.done(function(res) {
+			console.log(res);
+	  		console.log('retrieve success');
 	  	})
-	  	.fail(function() {
-	  		console.log('retrieve fail');
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('retrieve failed');
+	  	});
+	};
+
+	hoodie.account.cancelSub = function(username, password) {
+		console.log('> hoodie.account.cancelSub');
+		$.ajax({
+			type: 'get',
+			url: '/_api/_plugins/stripe/_api',
+			headers: getHeaders(username, password),
+			data: {
+				subtype: 'customers.cancelSubscription',
+				id: username,
+				planType: 'prototypoOwnSubscription',
+				originDb: 'user/' + hoodie.id()
+			}
+		})
+		.done(function(res) {
+			console.log(res);
+	  		console.log('cancel success');
+	  	})
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('cancel failed');
+	  	});
+	};
+
+	hoodie.account.listSubs = function(username, password, fromStripe) {
+		console.log('> hoodie.account.listSubs');
+		$.ajax({
+			type: 'get',
+			url: '/_api/_plugins/stripe/_api',
+			headers: getHeaders(username, password),
+			data: {
+				subtype: 'customers.listSubscriptions',
+				id: username,
+				fromStripe: fromStripe,
+				planType: 'prototypoOwnSubscription',
+				originDb: 'user/' + hoodie.id()
+			}
+		})
+		.done(function(res) {
+			console.log(res);
+	  		console.log('retrieve success');
+	  	})
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('retrieve failed');
+	  	});
+	};
+
+	hoodie.account.createCharge = function(username, password, stripeToken, amount, currency) {
+		console.log('> hoodie.account.createCharge');
+	  	console.log(hoodie.id());
+		$.ajax({
+			type: 'get',
+			url: '/_api/_plugins/stripe/_api',
+			headers: getHeaders(username, password),
+			data: {
+				subtype: 'charges.create',
+				id: username,
+				stripeToken: stripeToken,
+				amount: amount,
+				currency: currency,
+				originDb: 'user/' + hoodie.id(),
+				planType: 'prototypoOwnCharge'
+			}
+		})
+		.done(function(res) {
+			console.log(res);
+	  		console.log('charge creation : success');
+	  	})
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('charge creation : fail');
+	  	});
+	};
+
+	hoodie.account.retrieveCharge = function(username, password, fromStripe) {
+		console.log('> hoodie.account.retrieveCharge');
+		$.ajax({
+			type: 'get',
+			url: '/_api/_plugins/stripe/_api',
+			headers: getHeaders(username, password),
+			data: {
+				subtype: 'charges.retrieve',
+				id: username,
+				originDb: 'user/' + hoodie.id(),
+				planType: 'prototypoOwnCharge',
+				fromStripe: fromStripe
+			}
+		})
+		.done(function(res) {
+			console.log(res);
+	  		console.log('charge retrieve : success');
+	  	})
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('charge retrieve : fail');
+	  	});
+	};
+
+	hoodie.account.listCharges = function(username, password, fromStripe) {
+		console.log('> hoodie.account.listCharges');
+		$.ajax({
+			type: 'get',
+			url: '/_api/_plugins/stripe/_api',
+			headers: getHeaders(username, password),
+			data: {
+				subtype: 'charges.list',
+				id: username,
+				fromStripe: fromStripe,
+				planType: 'prototypoOwnSubscription',
+				originDb: 'user/' + hoodie.id()
+			}
+		})
+		.done(function(res) {
+			console.log(res);
+	  		console.log('charges list : success');
+	  	})
+	  	.fail(function(res) {
+			console.log(res);
+	  		console.log('charges list : failed');
 	  	});
 	}
 });
