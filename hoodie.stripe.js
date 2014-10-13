@@ -40,7 +40,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 
   // extend the hoodie.js API
   	hoodie.account.signUpWith = function (username, password) {
-		console.log('> hoodie.account.signUpWith');
+		// console.log('> hoodie.account.signUpWith');
 		// validateType(type);
 		return hoodie.account.signUp(username, password)
 		  .done(function() {
@@ -52,7 +52,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	hoodie.account.signUpStripe = function(username, password, stripeToken, plan) {
 	  	plan = handleFreePlan(plan);
 	  	console.log(hoodie.id());
-	  	console.log('> hoodie.account.signUpStripe');
+	  	// console.log('> hoodie.account.signUpStripe');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -80,7 +80,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 
 	hoodie.account.updateSub = function(username, password, plan) {
 		plan = handleFreePlan(plan);
-	  	console.log('> hoodie.account.updateSub');
+	  	// console.log('> hoodie.account.updateSub');
 	  	$.ajax({
 	  		type: 'get',
 	  		url: '/_api/_plugins/stripe/_api',
@@ -104,7 +104,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	};
 
 	hoodie.account.retrieveSub = function(username, password, fromStripe) {
-	  	console.log('> hoodie.account.retrieveSub');
+	  	// console.log('> hoodie.account.retrieveSub');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -117,18 +117,18 @@ Hoodie.extend(function (hoodie, lib, utils) {
 				originDb: 'user/' + hoodie.id()
 			}
 		})
-		.done(function(res) {
-			console.log(res);
+		.done(function(res, message) {
+			console.log(res, message);
 	  		console.log('retrieve success');
 	  	})
-	  	.fail(function(res) {
-			console.log(res);
+	  	.fail(function(res, message) {
+			console.log(res, message);
 	  		console.log('retrieve failed');
 	  	});
 	};
 
 	hoodie.account.cancelSub = function(username, password) {
-		console.log('> hoodie.account.cancelSub');
+		// console.log('> hoodie.account.cancelSub');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -151,7 +151,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	};
 
 	hoodie.account.listSubs = function(username, password, fromStripe) {
-		console.log('> hoodie.account.listSubs');
+		// console.log('> hoodie.account.listSubs');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -175,7 +175,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	};
 
 	hoodie.account.createCharge = function(username, password, stripeToken, amount, currency) {
-		console.log('> hoodie.account.createCharge');
+		// console.log('> hoodie.account.createCharge');
 	  	console.log(hoodie.id());
 		$.ajax({
 			type: 'get',
@@ -202,7 +202,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	};
 
 	hoodie.account.retrieveCharge = function(username, password, fromStripe) {
-		console.log('> hoodie.account.retrieveCharge');
+		// console.log('> hoodie.account.retrieveCharge');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',
@@ -226,7 +226,7 @@ Hoodie.extend(function (hoodie, lib, utils) {
 	};
 
 	hoodie.account.listCharges = function(username, password, fromStripe) {
-		console.log('> hoodie.account.listCharges');
+		// console.log('> hoodie.account.listCharges');
 		$.ajax({
 			type: 'get',
 			url: '/_api/_plugins/stripe/_api',

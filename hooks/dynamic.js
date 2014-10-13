@@ -38,106 +38,111 @@ var dotToCamel = function(str) {
 
 module.exports = function (hoodie) {
 
-  	function router(request, reply) {
+	var response;
+	
+	function router(request, reply) {
+		response = reply('ça se tente').hold();
+
+		// response.send();
+
 		//reply('hello world');
 		return router[request.query.subtype](request, reply);
 	};
 
 	router['customers.create'] = function(request, reply) {
-		stripe.customersCreate(hoodie, request.query, function(err) {
+		stripe.customersCreate(hoodie, request.query, reply, function(err) {
+			// console.log(response.send.toString());
+			response.send();
 			if (err && err == 'ignore') {
 				reply(false);
 			} else {
 				reply(true);
 			}
+			reply('hello world');
 		});
-  	};
+	};
 
 	router['customers.updateSubscription'] = function(request, reply) {
-		stripe.customersUpdateSubscription(hoodie, request.query, function(err) {
-			if (err && err == 'ignore') {
-			  	reply(false);
-			} else {
-			  	reply(true);
-			}
-		});
-  	};
-
-  	router['customers.retrieveSubscription'] = function(request, reply) {
-		stripe.customersRetrieveSubscription(hoodie, request.query, function(err, message) {
-			if (err && err == 'ignore') {
-			  	console.log('hello false');
-			  	reply(false);
-			} else {
-				console.log(reply);
-				console.log(message);
-				// message is what I want to send back to frontend
-			  	reply('hello world, x2');
-			}
-		});
-  	};
-
-  	router['customers.cancelSubscription'] = function(request, reply) {
-		stripe.customersCancelSubscription(hoodie, request.query, function(err) {
-			if (err && err == 'ignore') {
-			  	reply(false);
-			} else {
-			  	reply(true);
-			}
-		});
-  	};
-
-  	router['customers.listSubscriptions'] = function(request, reply) {
-		stripe.customersListSubscriptions(hoodie, request.query, function(err, message) {
-			if (err && err == 'ignore') {
-			  	console.log('hello false');
-			  	reply(false);
-			} else {
-				console.log(reply);
-				console.log(message);
-				// message is what I want to send back to frontend
-			  	reply('hello world, x2');
-			}
-		});
-  	};
-
-  	router['charges.create'] = function(request, reply) {
-		stripe.chargesCreate(hoodie, request.query, function(err) {
+		stripe.customersUpdateSubscription(hoodie, request.query, reply, function(err) {
 			if (err && err == 'ignore') {
 				reply(false);
 			} else {
 				reply(true);
 			}
 		});
-  	};
+	};
 
-  	router['charges.retrieve'] = function(request, reply) {
-		stripe.chargesRetrieve(hoodie, request.query, function(err, message) {
+	router['customers.retrieveSubscription'] = function(request, reply) {
+		stripe.customersRetrieveSubscription(hoodie, request.query, reply, function(err, message) {
 			if (err && err == 'ignore') {
-			  	console.log('hello false');
-			  	reply(false);
+				reply(false);
+			} else {
+				console.log(message);
+				reply(true);
+			}
+		});
+	};
+
+	router['customers.cancelSubscription'] = function(request, reply) {
+		stripe.customersCancelSubscription(hoodie, request.query, reply, function(err) {
+			if (err && err == 'ignore') {
+				reply(false);
+			} else {
+				reply(true);
+			}
+		});
+	};
+
+	router['customers.listSubscriptions'] = function(request, reply) {
+		stripe.customersListSubscriptions(hoodie, request.query, reply, function(err, message) {
+			if (err && err == 'ignore') {
+				console.log('hello false');
+				reply(false);
 			} else {
 				console.log(reply);
 				console.log(message);
 				// message is what I want to send back to frontend
-			  	reply('hello world, x2');
+				reply('hello world, x2');
 			}
 		});
-  	};
+	};
 
-  	router['customers.listCharges'] = function(request, reply) {
-		stripe.chargesList(hoodie, request.query, function(err, message) {
+	router['charges.create'] = function(request, reply) {
+		stripe.chargesCreate(hoodie, request.query, reply, function(err) {
 			if (err && err == 'ignore') {
-			  	console.log('hello false');
-			  	reply(false);
+				reply(false);
+			} else {
+				reply(true);
+			}
+		});
+	};
+
+	router['charges.retrieve'] = function(request, reply) {
+		stripe.chargesRetrieve(hoodie, request.query, reply, function(err, message) {
+			if (err && err == 'ignore') {
+				console.log('hello false');
+				reply(false);
+			} else {
+				console.log(message);
+				// message is what I want to send back to frontend
+				reply('hello world, x2');
+			}
+		});
+	};
+
+	router['customers.listCharges'] = function(request, reply) {
+		stripe.chargesList(hoodie, request.query, reply, function(err, message) {
+			if (err && err == 'ignore') {
+				console.log('hello false');
+				reply(false);
 			} else {
 				console.log(reply);
 				console.log(message);
 				// message is what I want to send back to frontend
-			  	reply('hello world, x2');
+				reply('hello world, x2');
 			}
 		});
-  	};
+	};
 
   // var handleConfirm = function(doc, callback) {
   //   console.log('confirm');
