@@ -1,0 +1,39 @@
+{
+  "name": "hoodie-plugin-stripe",
+  "version": "0.0.0",
+  "description": "plugin for stripe",
+  "main": "worker.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/byte-foundry"
+  },
+  "author": {
+    "name": "byte-foundry"
+  },
+  "license": "ISC",
+  "_id": "hoodie-plugin-stripe@0.0.0",
+  "_shasum": "8a04ca5b528434f9af1e88bef20e690eb7173631",
+  "_from": "hoodie-plugin-stripe@*",
+  "_npmVersion": "1.4.21",
+  "_npmUser": {
+    "name": "billcane",
+    "email": "bill.rousseau@student.42.fr"
+  },
+  "maintainers": [
+    {
+      "name": "billcane",
+      "email": "bill.rousseau@student.42.fr"
+    }
+  ],
+  "dist": {
+    "shasum": "8a04ca5b528434f9af1e88bef20e690eb7173631",
+    "tarball": "http://registry.npmjs.org/hoodie-plugin-stripe/-/hoodie-plugin-stripe-0.0.0.tgz"
+  },
+  "directories": {},
+  "_resolved": "https://registry.npmjs.org/hoodie-plugin-stripe/-/hoodie-plugin-stripe-0.0.0.tgz",
+  "readme": "ERROR: No README data found!",
+  "dependencies": {}
+}

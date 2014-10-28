@@ -36,7 +36,7 @@ exports.create_user_index = function create_user_index(hoodie, callback) {
       }
     }
   };
-  users_db.addIndex(index_name, mapReduce, callback)
+  users_db.addIndex(index_name, mapReduce, callback);
+    //callback();
 };
-
 
